@@ -1,8 +1,8 @@
 services:
   - type: web
-    name: esnai-cloud-auto
+    name: yapay-zeka
     env: python
-    buildCommand: ""
-    startCommand: gunicorn esnai_server:app
     plan: free
-    branch: main
+    buildCommand: ""
+    startCommand: gunicorn app:app
+

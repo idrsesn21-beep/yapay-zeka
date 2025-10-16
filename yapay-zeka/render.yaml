@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: esnai-cloud
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python esnai_server.py
+    envVars:
+      - key: ESNAI_MODEL
+        value: orca-mini-3b-gguf2-q4_0.gguf
+      - key: ESNAI_MAX_TOKENS
+        value: 300

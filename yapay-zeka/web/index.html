@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ESNAI Cloud v1 — Test İstemci</title>
+<style>
+ body{font-family:system-ui,Segoe UI,Roboto,Arial;background:#0b0b12;color:#f2f2ff;margin:0}
+ .wrap{max-width:860px;margin:0 auto;padding:16px}
+ .card{background:#12121c;border:1px solid #24243a;border-radius:14px;padding:14px;margin:10px 0}
+ input,textarea,button{width:100%;padding:10px;border-radius:10px;border:1px solid #2e2e4a;background:#0f0f18;color:#fff}
+ textarea{min-height:90px}
+ button{cursor:pointer;background:#7b5cff;border-color:#7b5cff;font-weight:700}
+ pre{white-space:pre-wrap;background:#0f0f18;border:1px solid #2e2e4a;border-radius:10px;padding:10px;min-height:80px}
+ small{color:#9ea1c7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2>ESNAI Cloud v1 — Test</h2>
+  <div class="card">
+    <label>ESNAI URL</label>
+    <input id="base" placeholder="https://esnai.onrender.com" />
+  </div>
+  <div class="card">
+    <label>Prompt</label>
+    <textarea id="p">6-8 yaş için cesaret temalı kısa hikaye (100-150 kelime).</textarea>
+    <button id="go">📖 Metin üret</button>
+    <pre id="out"></pre>
+    <small>Not: v1 metin üretir. TTS/video modülleri v2/v3'te eklenecek.</small>
+  </div>
+</div>
+<script>
+go.onclick = async ()=>{
+  const base = document.getElementById('base').value.trim() || location.origin;
+  out.textContent = "⏳ üretiliyor...";
+  try {
+    const r = await fetch(base.replace(/\/$/,'') + '/story', {
+      method: 'POST',
+      headers: {'content-type':'application/json'},
+      body: JSON.stringify({prompt: p.value, max_tokens: 260})
+    });
+    const j = await r.json();
+    out.textContent = j.text || JSON.stringify(j);
+  } catch(e){
+    out.textContent = 'Hata: ' + e.message;
+  }
+};
+</script>
+</body>
+</html>
